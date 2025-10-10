@@ -76,8 +76,8 @@ public class Intake extends SubsystemBase{
     public double intakevelocity(){
         return intakeleft.getVelocity().getValueAsDouble();
     }
-    public boolean intakevelocitycheck(){//peice not there check
-        return (intakeleft.getStatorCurrent().getValueAsDouble()>20 &&  intakepiv.getPosition().getValueAsDouble()>12);
+    public boolean intakevelocitycheck(){//peice is there check
+        return (intakevelocity()<48 &&  intakepiv.getPosition().getValueAsDouble()>12);
     }
     
    public Command intakepivoitcmd(double postion){
@@ -169,7 +169,7 @@ public class Intake extends SubsystemBase{
 
     };
    }
-   public Command intakecmd(double speed){
+   public Command intakecmdout(double speed){
     return new Command(){
         @Override
         public void initialize(){
@@ -183,6 +183,27 @@ public class Intake extends SubsystemBase{
         public boolean isFinished(){
             return false;
         }
+    };}
+        public Command intakecmdin(double speed){
+            return new Command(){
+                @Override
+                public void initialize(){
+                    
+                }
+                @Override
+                public void execute(){
+                    intakeleft.set(speed);
+                }
+                @Override
+                public boolean isFinished(){
+                    return intakevelocitycheck();
+                }
+                @Override
+                public void end(boolean interrupted){
+                    intakeleft.set(0);
+                }
+
+
     };
    }
 

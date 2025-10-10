@@ -86,6 +86,10 @@ public class  Climb extends SubsystemBase {
   public double velocity() {
     return climbPivot.getVelocity().getValueAsDouble();
   }
+  public double velocityWheel() {
+    return climbWheels.getVelocity().getValueAsDouble();
+  }
+
 
   public Command cmd(double position) {
     return new Command() {
@@ -107,16 +111,16 @@ public class  Climb extends SubsystemBase {
     };
   }
 
-  public Command cmdspeed(double speed) {
+  public Command cmdspeed(double speedpiv,double wheel) {
     return new Command() {
       @Override
       public void initialize() {}
 
       @Override
       public void execute() {
-        climbWheels.set(0.67);
+        climbWheels.set(wheel);
 
-        climbPivot.set(speed);
+        climbPivot.set(speedpiv);
       }
 
       @Override
@@ -128,6 +132,29 @@ public class  Climb extends SubsystemBase {
       @Override
       public boolean isFinished() {
         return false; // Check if the setpoint is reached
+      }
+    };
+  }
+  public Command cmdWheels(double wheel) {
+    return new Command() {
+      @Override
+      public void initialize() {}
+
+      @Override
+      public void execute() {
+        climbWheels.set(wheel);
+
+      }
+
+      @Override
+      public void end(boolean interrupted) {
+        climbWheels.set(0);
+      }
+      
+
+      @Override
+      public boolean isFinished() {
+        return velocityWheel()<5; // Check if the setpoint is reached
       }
     };
   }

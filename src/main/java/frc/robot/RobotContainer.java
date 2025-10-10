@@ -72,20 +72,23 @@ public class RobotContainer {
   driverJoy.x().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 //intake
 
-    operator.leftTrigger(0.2).whileTrue(new ParallelCommandGroup(intake.intakecmd(0.5), intake.intakepivoitcmd(13.999))).whileFalse(new ParallelCommandGroup(intake.intakecmd(0.02), intake.intakepivoitcmd(.5)));
-    operator.rightTrigger(0.2).whileTrue(intake.intakepivoitshootcmd(3.9404296875).andThen(intake.intakecmd(-0.75))).whileFalse(new ParallelCommandGroup(intake.intakecmd(0), intake.intakepivoitcmd(0.5)));
+    operator.leftTrigger(0.2).whileTrue(new ParallelCommandGroup(intake.intakecmdin(0.5), intake.intakepivoitcmd(13.999))).whileFalse(new ParallelCommandGroup(intake.intakecmdin(0.02), intake.intakepivoitcmd(.5)));
+    operator.rightTrigger(0.2).whileTrue(intake.intakepivoitshootcmd(3.9404296875).andThen(intake.intakecmdout(-0.75))).whileFalse(new ParallelCommandGroup(intake.intakecmdin(0), intake.intakepivoitcmd(0.5)));
     operator
         .y()
-        .whileTrue(new SequentialCommandGroup(intake.intakepivoitcmd(3.9404296875),climb.cmdspeed(1)))//change val
-        .whileFalse(climb.cmdspeed(0)); 
+        .whileTrue(new SequentialCommandGroup(intake.intakepivoitshootcmd(3.9404296875),climb.cmdspeed(1,-1)))//change val
+        .whileFalse(climb.cmdspeed(0,0)); 
 
         operator
         .a()
-        .whileTrue(new ParallelCommandGroup(intake.intakepivoitcmd(3.9404296875),climb.cmdspeed(-1)))
-        .whileFalse(climb.cmdspeed(0));
+        .whileTrue(new ParallelCommandGroup(intake.intakepivoitcmd(3.9404296875),climb.cmdspeed(-1,0)))
+        .whileFalse(climb.cmdspeed(0,0));
 
-
-    
+        operator
+        .b()
+        .whileTrue(new SequentialCommandGroup(intake.intakepivoitshootcmd(3.9404296875),climb.cmdspeed(0,-1)))//change val
+        .whileFalse(climb.cmdspeed(0,0)); 
+     
 
   }
   
