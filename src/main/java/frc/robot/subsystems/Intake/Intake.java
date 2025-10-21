@@ -92,11 +92,11 @@ public class Intake extends SubsystemBase{
         }
         @Override
         public boolean isFinished(){
-            return intakevelocitycheck();
+            return false;
         }
         @Override
         public void end(boolean interrupted){
-            intakeleft.set(0);
+     
         }
     };
    }
@@ -196,11 +196,11 @@ public class Intake extends SubsystemBase{
                 }
                 @Override
                 public boolean isFinished(){
-                    return intakevelocitycheck();
+                    return false;
                 }
                 @Override
                 public void end(boolean interrupted){
-                    intakeleft.set(0);
+       
                 }
 
 
